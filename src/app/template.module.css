@@ -83,6 +83,7 @@
   width: rem(20px);
   height: rem(20px);
   pointer-events: none;
+  background-color: var(--mantine-color-violet-3);
 }
 
 .collections {

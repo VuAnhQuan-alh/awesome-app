@@ -91,7 +91,6 @@ export default function Template({ children }: { children: ReactNode }) {
 
         <TextInput
           placeholder="Search"
-          size="xs"
           leftSection={
             <IconSearch
               style={{ width: rem(12), height: rem(12) }}
@@ -128,7 +127,7 @@ export default function Template({ children }: { children: ReactNode }) {
 
       <Box component="main" w="100%" pb="md">
         <Container h={rem(70)}>
-          <Title order={2} pt="md" tt="capitalize" c="dark">
+          <Title order={2} pt="md" tt="capitalize">
             Title
           </Title>
         </Container>

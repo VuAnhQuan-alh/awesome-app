@@ -1,5 +1,11 @@
 import { Container } from "@mantine/core";
 
+import TableTask from "./component/table";
+
 export default function TasksPage() {
-  return <Container>Tasks page do</Container>;
+  return (
+    <Container>
+      <TableTask />
+    </Container>
+  );
 }
