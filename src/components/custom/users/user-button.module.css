@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: rem(0px);
+  padding: rem(16px);
+
+  &:hover {
+    background-color: light-dark(
+      var(--mantine-color-gray-1),
+      var(--mantine-color-dark-6)
+    );
+  }
+}
+
+.wrap-img {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: rem(6px);
+  margin-left: rem(10px);
+}
