@@ -1,5 +1,5 @@
 import { Container } from "@mantine/core";
 
-export default function Activities() {
+export default function ActivitiesPage() {
   return <Container>Activities page do</Container>;
 }
