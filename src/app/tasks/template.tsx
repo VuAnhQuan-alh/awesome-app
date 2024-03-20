@@ -5,14 +5,14 @@ import { ReactNode } from "react";
 
 import { Grid, TextInput } from "@mantine/core";
 import DrawerBox from "@zone/components/core/drawer";
-import PageLayout from "@zone/components/core/layout";
+import PageTemplate from "@zone/components/core/template";
 
 export default function Template({ children }: { children: ReactNode }) {
   const router = useRouter();
   const params = useSearchParams();
 
   return (
-    <PageLayout title="Title tasks" urlAction="?action=create">
+    <PageTemplate title="Title tasks" urlAction="?action=create">
       {children}
 
       <DrawerBox
@@ -27,6 +27,6 @@ export default function Template({ children }: { children: ReactNode }) {
           </Grid.Col>
         </Grid>
       </DrawerBox>
-    </PageLayout>
+    </PageTemplate>
   );
 }
