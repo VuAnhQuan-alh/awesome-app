@@ -27,6 +27,7 @@ const PageTemplate = (props: IProps) => {
             bg="violet"
             leftSection={<IconPlus size="1rem" />}
             href={urlAction}
+            replace
           >
             Create new entry
           </Button>
