@@ -29,6 +29,7 @@ import classes from "./table.module.css";
 interface ITableProps<T> extends Omit<TableOptions<T>, "getCoreRowModel"> {
   // property
   loading: boolean;
+  title: string;
 
   // optional
   hiddenTfoot?: boolean;
@@ -36,7 +37,6 @@ interface ITableProps<T> extends Omit<TableOptions<T>, "getCoreRowModel"> {
 
 function TableCore<T = unknown>(props: ITableProps<T>) {
   const { hiddenTfoot = true } = props;
-
   const { getHeaderGroups, getRowModel, getFooterGroups } = useReactTable({
     getCoreRowModel: getCoreRowModel(),
     ...props,
@@ -46,7 +46,7 @@ function TableCore<T = unknown>(props: ITableProps<T>) {
     <Box pos="relative">
       <TableScrollContainer minWidth="content">
         <Table verticalSpacing="xs" captionSide="top" highlightOnHover>
-          <TableCaption>Some elements from periodic table</TableCaption>
+          <TableCaption>{props.title}</TableCaption>
           <TableThead>
             {getHeaderGroups().map((headerGroup) => (
               <TableTr key={headerGroup.id}>

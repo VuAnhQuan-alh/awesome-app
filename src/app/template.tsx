@@ -1,5 +1,7 @@
 "use client";
 
+import "@mantine/spotlight/styles.css";
+
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -17,9 +19,12 @@ import {
   Tooltip,
   UnstyledButton,
 } from "@mantine/core";
+import { spotlight, Spotlight, SpotlightActionData } from "@mantine/spotlight";
 import {
   IconBulb,
   IconCheckbox,
+  IconDashboard,
+  IconFileText,
   IconHome,
   IconPlus,
   IconSearch,
@@ -45,6 +50,36 @@ const collections = [
   { emoji: "📅", label: "Events" },
   { emoji: "🙈", label: "Debts" },
   { emoji: "💁‍♀️", label: "Customers" },
+];
+
+const actions: SpotlightActionData[] = [
+  {
+    id: "home",
+    label: "Home",
+    description: "Get to home page",
+    onClick: () => console.log("Home"),
+    leftSection: (
+      <IconHome style={{ width: rem(24), height: rem(24) }} stroke={1.5} />
+    ),
+  },
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    description: "Get full information about current system status",
+    onClick: () => console.log("Dashboard"),
+    leftSection: (
+      <IconDashboard style={{ width: rem(24), height: rem(24) }} stroke={1.5} />
+    ),
+  },
+  {
+    id: "documentation",
+    label: "Documentation",
+    description: "Visit documentation to lean more about all features",
+    onClick: () => console.log("Documentation"),
+    leftSection: (
+      <IconFileText style={{ width: rem(24), height: rem(24) }} stroke={1.5} />
+    ),
+  },
 ];
 
 export default function Template({ children }: { children: ReactNode }) {
@@ -97,10 +132,27 @@ export default function Template({ children }: { children: ReactNode }) {
               stroke={1.5}
             />
           }
+          readOnly
+          onClick={spotlight.open}
           rightSectionWidth={70}
-          rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
+          rightSection={<Code className={classes.searchCode}>Cmd + K</Code>}
           styles={{ section: { pointerEvents: "none" } }}
           mb="sm"
+        />
+        <Spotlight
+          nothingFound="Nothing found..."
+          highlightQuery
+          shortcut={["mod + k"]}
+          actions={actions}
+          searchProps={{
+            leftSection: (
+              <IconSearch
+                style={{ width: rem(20), height: rem(20) }}
+                stroke={1.5}
+              />
+            ),
+            placeholder: "Search...",
+          }}
         />
 
         <Box className={classes.section}>
@@ -125,13 +177,7 @@ export default function Template({ children }: { children: ReactNode }) {
         </Box>
       </Box>
 
-      <Box component="main" w="100%" pb="md">
-        <Container h={rem(70)}>
-          <Title order={2} pt="md" tt="capitalize">
-            Title
-          </Title>
-        </Container>
-
+      <Box component="main" w="100%">
         {children}
       </Box>
     </Box>

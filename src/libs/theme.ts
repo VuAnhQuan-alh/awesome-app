@@ -21,6 +21,11 @@ const theme = createTheme({
         variant: "outline",
         size: "xs",
       },
+      styles: {
+        root: {
+          outline: "none",
+        },
+      },
     }),
     Container: Container.extend({
       defaultProps: {

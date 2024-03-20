@@ -63,8 +63,8 @@ const useTableTask = () => {
           },
         }) => {
           const total = reviews.negative + reviews.positive;
-          const positive = (reviews.positive / total) * 100;
-          const negative = (reviews.negative / total) * 100;
+          const positive = (reviews.positive / total) * 100 || 0;
+          const negative = (reviews.negative / total) * 100 || 0;
 
           return (
             <>
@@ -72,7 +72,7 @@ const useTableTask = () => {
                 <Text fz="xs" c="teal" fw={700}>
                   {positive.toFixed(0)}%
                 </Text>
-                <Text fz="xs" c="teal" fw={700}>
+                <Text fz="xs" c="red" fw={700}>
                   {negative.toFixed(0)}%
                 </Text>
               </Group>
