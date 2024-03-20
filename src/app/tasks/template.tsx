@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { ReactNode } from "react";
 
 import { Grid, TextInput } from "@mantine/core";
@@ -9,17 +8,15 @@ import DrawerBox from "@zone/components/core/drawer";
 import PageTemplate from "@zone/components/core/template";
 
 export default function Template({ children }: { children: ReactNode }) {
-  const router = useRouter();
-  const params = useSearchParams();
   const [opened, { open, close }] = useDisclosure();
 
   return (
-    <PageTemplate title="Title tasks" urlAction="?action=create">
+    <PageTemplate title="Title tasks" onCreate={open}>
       {children}
 
       <DrawerBox
-        opened={params.get("action") === "create"}
-        close={() => router.replace("/tasks")}
+        opened={opened}
+        close={close}
         title="Drawer box tasks"
         onSubmit={() => {}}
       >

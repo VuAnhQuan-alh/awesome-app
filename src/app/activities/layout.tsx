@@ -1,3 +1,5 @@
+import PageLayout from "@zone/components/core/layout";
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,5 +9,5 @@ export const metadata: Metadata = {
 export default function ActiveLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return <>{children}</>;
+  return <PageLayout>{children}</PageLayout>;
 }
