@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "dayjs/locale/vi";
 
 import { Inter } from "next/font/google";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { DatesProvider } from "@mantine/dates";
 import QueryProvider from "@zone/libs/query-provider";
 import { theme } from "@zone/libs/theme";
 
@@ -33,7 +36,16 @@ export default function RootLayout({
       <body className={inter.className}>
         <QueryProvider>
           <MantineProvider withCssVariables={false} theme={theme}>
-            {children}
+            <DatesProvider
+              settings={{
+                locale: "vi",
+                firstDayOfWeek: 0,
+                weekendDays: [0],
+                timezone: "UTC",
+              }}
+            >
+              {children}
+            </DatesProvider>
           </MantineProvider>
         </QueryProvider>
       </body>

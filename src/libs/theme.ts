@@ -14,6 +14,7 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
+import { YearPickerInput } from "@mantine/dates";
 
 const theme = createTheme({
   components: {
@@ -37,6 +38,10 @@ const theme = createTheme({
     Text: Text.extend({ defaultProps: { c: "var(--mantine-color-gray-8)" } }),
     TextInput: TextInput.extend({ defaultProps: { size: "xs" } }),
     Title: Title.extend({ defaultProps: { c: "var(--mantine-color-gray-8)" } }),
+    YearPickerInput: YearPickerInput.extend({
+      defaultProps: { size: "xs", h: rem(30) },
+      styles: { input: { height: rem(30) } },
+    }),
   },
 });
 export { theme };

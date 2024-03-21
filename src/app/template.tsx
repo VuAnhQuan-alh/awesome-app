@@ -10,12 +10,10 @@ import {
   Badge,
   Box,
   Code,
-  Container,
   Group,
   rem,
   Text,
   TextInput,
-  Title,
   Tooltip,
   UnstyledButton,
 } from "@mantine/core";
@@ -120,7 +118,6 @@ export default function Template({ children }: { children: ReactNode }) {
     <Box component="main" className={classes.page}>
       <Box component="nav" className={classes.navbar}>
         <Box className={classes.section}>
-          {/* <UserButton /> */}
           <UserButton />
         </Box>
 
