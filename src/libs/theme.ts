@@ -3,6 +3,7 @@
 import {
   Anchor,
   Button,
+  Checkbox,
   Container,
   createTheme,
   rem,
@@ -15,53 +16,23 @@ import {
 
 const theme = createTheme({
   components: {
-    Button: Button.extend({
-      defaultProps: {
-        color: "violet",
-        variant: "outline",
-        size: "xs",
-      },
-      styles: {
-        root: {
-          outline: "none",
-        },
-      },
-    }),
-    Container: Container.extend({
-      defaultProps: {
-        px: rem(10),
-      },
-    }),
-    Title: Title.extend({
-      defaultProps: {
-        c: "var(--mantine-color-gray-8)",
-      },
-    }),
     Anchor: Anchor.extend({
-      defaultProps: {
-        c: "var(--mantine-color-anchor)",
-      },
+      defaultProps: { c: "var(--mantine-color-anchor)" },
     }),
-    Text: Text.extend({
-      defaultProps: {
-        c: "var(--mantine-color-gray-8)",
-      },
+    Button: Button.extend({
+      defaultProps: { color: "violet", variant: "outline", size: "xs" },
+      styles: { root: { outline: "none" } },
     }),
-    TableCaption: TableCaption.extend({
-      defaultProps: {
-        mb: rem(0),
-      },
+    Checkbox: Checkbox.extend({
+      defaultProps: { size: "xs", color: "violet" },
+      styles: { input: { cursor: "pointer" } },
     }),
-    Select: Select.extend({
-      defaultProps: {
-        size: "xs",
-      },
-    }),
-    TextInput: TextInput.extend({
-      defaultProps: {
-        size: "xs",
-      },
-    }),
+    Container: Container.extend({ defaultProps: { px: rem(10) } }),
+    Select: Select.extend({ defaultProps: { size: "xs" } }),
+    TableCaption: TableCaption.extend({ defaultProps: { mb: rem(0) } }),
+    Text: Text.extend({ defaultProps: { c: "var(--mantine-color-gray-8)" } }),
+    TextInput: TextInput.extend({ defaultProps: { size: "xs" } }),
+    Title: Title.extend({ defaultProps: { c: "var(--mantine-color-gray-8)" } }),
   },
 });
 export { theme };

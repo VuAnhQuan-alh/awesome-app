@@ -3,12 +3,15 @@
 import { useMemo } from "react";
 
 import {
+  ActionIcon,
   Anchor,
+  Checkbox,
   Group,
   ProgressRoot,
   ProgressSection,
   Text,
 } from "@mantine/core";
+import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { IHeadCell } from "@zone/components/core";
 
@@ -16,21 +19,41 @@ import { ITasksType } from "../type";
 import classes from "./table.module.css";
 
 const columnHelper = createColumnHelper<ITasksType>();
+
 const useTableTask = () => {
   const HEAD_CELLS: IHeadCell<ITasksType> = useMemo(
     () => ({
-      id: "ID",
-      title: "Booking title",
+      actions: "Actions",
       author: "Author",
-      year: "Year",
-      reviews: "Reviews",
+      id: "ID",
       progress: "Reviews distribution",
+      select: "Select",
+      reviews: "Reviews",
+      title: "Booking title",
+      year: "Year",
     }),
     []
   );
 
   const columns = useMemo(
     () => [
+      columnHelper.display({
+        id: "select",
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            disabled={!row.getCanSelect()}
+            onChange={row.getToggleSelectedHandler()}
+          />
+        ),
+        header: ({ table }) => (
+          <Checkbox
+            checked={table.getIsAllRowsSelected()}
+            indeterminate={table.getIsSomeRowsSelected()}
+            onChange={table.getToggleAllRowsSelectedHandler()}
+          />
+        ),
+      }),
       columnHelper.accessor("title", {
         cell: (context) => (
           <Anchor component="button" fz="sm">
@@ -94,6 +117,26 @@ const useTableTask = () => {
         },
         header: () => HEAD_CELLS.progress,
       }),
+      columnHelper.display({
+        id: "actions",
+        cell: ({ row }) => {
+          const handle = () => {
+            console.log({ data: row });
+          };
+          return (
+            <Group justify="end">
+              <ActionIcon onClick={handle}>
+                <IconPencil size="1rem" />
+              </ActionIcon>
+
+              <ActionIcon color="red">
+                <IconTrash size="1rem" />
+              </ActionIcon>
+            </Group>
+          );
+        },
+        header: () => HEAD_CELLS.actions,
+      }),
     ],
     [HEAD_CELLS]
   );
@@ -149,6 +192,6 @@ const useTableTask = () => {
     },
   ];
 
-  return { columns, dataTasks };
+  return { columns, dataTasks, HEAD_CELLS };
 };
 export default useTableTask;
