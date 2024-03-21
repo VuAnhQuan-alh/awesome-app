@@ -14,7 +14,7 @@ const PageTemplate = (props: IProps) => {
 
   return (
     <Container h={rem(70)} py="md">
-      <Group justify="space-between" align="center" mb="md">
+      <Group justify="space-between" align="center" px="xs" mb="md">
         <Title order={2} tt="capitalize">
           {title}
         </Title>

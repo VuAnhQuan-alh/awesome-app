@@ -121,7 +121,7 @@ const useTableTask = () => {
         id: "actions",
         cell: ({ row }) => {
           const handle = () => {
-            console.log({ data: row });
+            console.log({ data: row.original });
           };
           return (
             <Group justify="end">

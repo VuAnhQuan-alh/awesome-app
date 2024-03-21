@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ActionIcon,
   Anchor,
   Button,
   Checkbox,
@@ -16,6 +17,9 @@ import {
 
 const theme = createTheme({
   components: {
+    ActionIcon: ActionIcon.extend({
+      defaultProps: { variant: "light" },
+    }),
     Anchor: Anchor.extend({
       defaultProps: { c: "var(--mantine-color-anchor)" },
     }),

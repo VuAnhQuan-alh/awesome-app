@@ -10,11 +10,11 @@ export default function TableTask() {
 
   return (
     <TableCore<ITasksType>
-      title="Someone task for table"
-      loading={false}
       columns={columns}
       data={dataTasks}
       headCells={HEAD_CELLS}
+      loading={false}
+      title="Someone task for table"
     />
   );
 }

@@ -38,12 +38,11 @@ import {
   getCoreRowModel,
   TableOptions,
   useReactTable,
-  VisibilityState,
 } from "@tanstack/react-table";
 import { IconEmpty } from "@zone/components/icons";
 
 import classes from "./table.module.css";
-import { memo, ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { randomId } from "@mantine/hooks";
 
@@ -54,7 +53,7 @@ interface ITableProps<T> extends Omit<TableOptions<T>, "getCoreRowModel"> {
   headCells: Record<string, string>;
 
   // optional
-  hiddenTfoot?: boolean;
+  visibleTfoot?: boolean;
   hiddenVisible?: boolean;
   hiddenFilter?: ReactNode;
 }
@@ -66,12 +65,13 @@ type TFilter = {
 };
 
 function TableCore<T = unknown>(props: ITableProps<T>) {
+  console.debug("Render or rerender TABLE");
   const {
     loading,
     title,
     headCells,
 
-    hiddenTfoot = true,
+    visibleTfoot = true,
     hiddenVisible = false,
     hiddenFilter = false,
     ...tableProps
@@ -149,11 +149,15 @@ function TableCore<T = unknown>(props: ITableProps<T>) {
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           onChange={field.handleChange}
-                          data={[
-                            { value: "booking", label: "Booking title" },
-                            { value: "year", label: "Year" },
-                            { value: "created", label: "Created at" },
-                          ]}
+                          data={getAllLeafColumns()
+                            .filter(
+                              (column) =>
+                                !["select", "id", "actions"].includes(column.id)
+                            )
+                            .map((column) => ({
+                              value: column.id,
+                              label: headCells[column.id],
+                            }))}
                         />
                       )}
                     </Field>
@@ -233,7 +237,7 @@ function TableCore<T = unknown>(props: ITableProps<T>) {
         {!hiddenVisible && (
           <Popover trapFocus position="bottom-end" withArrow>
             <PopoverTarget>
-              <ActionIcon c="violet" variant="light" aria-label="Settings">
+              <ActionIcon c="violet" aria-label="Settings">
                 <IconSettings size="1rem" />
               </ActionIcon>
             </PopoverTarget>
@@ -317,7 +321,7 @@ function TableCore<T = unknown>(props: ITableProps<T>) {
             })}
           </TableTbody>
 
-          {!hiddenTfoot && (
+          {!visibleTfoot && (
             <TableTfoot>
               {getFooterGroups().map((footerGroup) => (
                 <TableTr key={footerGroup.id}>
