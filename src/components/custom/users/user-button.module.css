@@ -1,9 +1,10 @@
 .wrapper {
+  align-items: center;
+  border-radius: rem(4px);
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: rem(0px);
-  padding: rem(16px);
+  margin: rem(6px);
+  padding: rem(10px);
 
   &:hover {
     background-color: light-dark(
@@ -11,12 +12,16 @@
       var(--mantine-color-dark-6)
     );
   }
+
+  &[aria-checked="true"] {
+    background-color: var(--mantine-color-violet-0);
+  }
 }
 
 .wrap-img {
   display: flex;
-  flex: 1;
   flex-direction: column;
+  flex: 1;
   gap: rem(6px);
   margin-left: rem(10px);
 }

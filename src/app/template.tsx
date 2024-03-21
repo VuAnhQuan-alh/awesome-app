@@ -3,6 +3,7 @@
 import "@mantine/spotlight/styles.css";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
 import {
@@ -81,12 +82,15 @@ const actions: SpotlightActionData[] = [
 ];
 
 export default function Template({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+
   const mainLinks = links.map((link) => (
     <UnstyledButton
+      aria-checked={pathname === link.link}
+      className={classes.mainLink}
       component={Link}
       href={link.link}
       key={link.label}
-      className={classes.mainLink}
     >
       <div className={classes.mainLinkInner}>
         <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
@@ -102,10 +106,10 @@ export default function Template({ children }: { children: ReactNode }) {
 
   const collectionLinks = collections.map((collection) => (
     <a
-      href="#"
-      onClick={(event) => event.preventDefault()}
-      key={collection.label}
       className={classes.collectionLink}
+      href="#"
+      key={collection.label}
+      onClick={(event) => event.preventDefault()}
     >
       <span style={{ marginRight: rem(9), fontSize: rem(16) }}>
         {collection.emoji}
@@ -122,25 +126,24 @@ export default function Template({ children }: { children: ReactNode }) {
         </Box>
 
         <TextInput
-          placeholder="Search"
           leftSection={
             <IconSearch
               style={{ width: rem(12), height: rem(12) }}
               stroke={1.5}
             />
           }
-          readOnly
-          onClick={spotlight.open}
-          rightSectionWidth={70}
-          rightSection={<Code className={classes.searchCode}>Cmd + K</Code>}
-          styles={{ section: { pointerEvents: "none" } }}
           mb="sm"
+          onClick={spotlight.open}
+          placeholder="Search"
+          readOnly
+          rightSection={<Code className={classes.searchCode}>Cmd + K</Code>}
+          rightSectionWidth={70}
+          styles={{ section: { pointerEvents: "none" } }}
         />
         <Spotlight
-          nothingFound="Nothing found..."
-          highlightQuery
-          shortcut={["mod + k"]}
           actions={actions}
+          highlightQuery
+          nothingFound="Nothing found..."
           searchProps={{
             leftSection: (
               <IconSearch
@@ -150,6 +153,7 @@ export default function Template({ children }: { children: ReactNode }) {
             ),
             placeholder: "Search...",
           }}
+          shortcut={["mod + k"]}
         />
 
         <Box className={classes.section}>

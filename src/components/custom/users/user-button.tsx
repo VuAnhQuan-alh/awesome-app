@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Avatar, Box, rem, Text, Title, UnstyledButton } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -6,8 +7,11 @@ import { IconChevronRight } from "@tabler/icons-react";
 import classes from "./user-button.module.css";
 
 export function UserButton() {
+  const pathname = usePathname();
+
   return (
     <UnstyledButton
+      aria-checked={pathname.includes("/profile")}
       className={classes.wrapper}
       component={Link}
       href="/profile"
