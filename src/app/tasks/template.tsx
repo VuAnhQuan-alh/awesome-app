@@ -3,11 +3,13 @@
 import { ReactNode } from "react";
 
 import { Grid } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@tanstack/react-form";
+import { useTemplate } from "@zone/components/context/template.context";
 import { SelectField, TextField, YearPickerField } from "@zone/components/core";
 import DrawerBox from "@zone/components/core/drawer";
 import PageTemplate from "@zone/components/core/template";
+
+import { TARGET } from "./type";
 
 type ITaskField = {
   title: string;
@@ -15,7 +17,8 @@ type ITaskField = {
 };
 
 export default function Template({ children }: { children: ReactNode }) {
-  const [opened, { open, close }] = useDisclosure();
+  const context = useTemplate();
+
   const { handleSubmit, Subscribe, Field } = useForm<ITaskField>({
     defaultValues: {
       title: "",
@@ -28,13 +31,16 @@ export default function Template({ children }: { children: ReactNode }) {
   });
 
   return (
-    <PageTemplate title="Title tasks" onCreate={open}>
+    <PageTemplate
+      title="Title tasks"
+      onCreate={() => context.open(TARGET.TASKS)}
+    >
       {children}
 
       <DrawerBox
-        close={close}
+        close={() => context.close(TARGET.TASKS)}
         handleSubmit={handleSubmit}
-        opened={opened}
+        opened={context.opened && context.target === TARGET.TASKS}
         Subscribe={Subscribe}
         title="Drawer box tasks"
       >

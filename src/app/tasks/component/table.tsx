@@ -1,12 +1,16 @@
 "use client";
 
+import { useTemplate } from "@zone/components/context/template.context";
 import { TableCore } from "@zone/components/core";
 
 import { ITasksType } from "../type";
 import useTableTask from "./useTable";
 
 export default function TableTask() {
-  const { columns, dataTasks, HEAD_CELLS } = useTableTask();
+  const context = useTemplate();
+  const { columns, dataTasks, HEAD_CELLS } = useTableTask({
+    open: context.open,
+  });
 
   return (
     <TableCore<ITasksType>

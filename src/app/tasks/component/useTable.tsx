@@ -15,12 +15,18 @@ import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { IHeadCell } from "@zone/components/core";
 
-import { ITasksType } from "../type";
+import { ITasksType, TARGET } from "../type";
 import classes from "./table.module.css";
+
+type IProps = {
+  open: (e: string) => void;
+};
 
 const columnHelper = createColumnHelper<ITasksType>();
 
-const useTableTask = () => {
+const useTableTask = (props: IProps) => {
+  const { open } = props;
+
   const HEAD_CELLS: IHeadCell<ITasksType> = useMemo(
     () => ({
       actions: "Actions",
@@ -121,6 +127,7 @@ const useTableTask = () => {
         id: "actions",
         cell: ({ row }) => {
           const handle = () => {
+            open(TARGET.TASKS);
             console.log({ data: row.original });
           };
           return (
@@ -138,7 +145,7 @@ const useTableTask = () => {
         header: () => HEAD_CELLS.actions,
       }),
     ],
-    [HEAD_CELLS]
+    [HEAD_CELLS, open]
   );
 
   const dataTasks = [

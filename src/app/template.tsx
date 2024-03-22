@@ -30,6 +30,7 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import classes from "@zone/app/template.module.css";
+import ProviderRoot from "@zone/components/context/provider.root";
 import { UserButton } from "@zone/components/custom";
 
 const links = [
@@ -93,8 +94,18 @@ export default function Template({ children }: { children: ReactNode }) {
       key={link.label}
     >
       <div className={classes.mainLinkInner}>
-        <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
-        <span>{link.label}</span>
+        <link.icon
+          aria-checked={pathname === link.link}
+          className={classes.mainLinkIcon}
+          size={20}
+          stroke={1.5}
+        />
+        <span
+          aria-checked={pathname === link.link}
+          className={classes.mainLinkText}
+        >
+          {link.label}
+        </span>
       </div>
       {link.notifications && (
         <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
@@ -119,68 +130,73 @@ export default function Template({ children }: { children: ReactNode }) {
   ));
 
   return (
-    <Box component="main" className={classes.page}>
-      <Box component="nav" className={classes.navbar}>
-        <Box className={classes.section}>
-          <UserButton />
-        </Box>
+    <ProviderRoot>
+      <Box component="main" className={classes.page}>
+        <Box component="nav" className={classes.navbar}>
+          <Box className={classes.section}>
+            <UserButton />
+          </Box>
 
-        <TextInput
-          leftSection={
-            <IconSearch
-              style={{ width: rem(12), height: rem(12) }}
-              stroke={1.5}
-            />
-          }
-          mb="sm"
-          onClick={spotlight.open}
-          placeholder="Search"
-          readOnly
-          rightSection={<Code className={classes.searchCode}>Cmd + K</Code>}
-          rightSectionWidth={70}
-          styles={{ section: { pointerEvents: "none" } }}
-        />
-        <Spotlight
-          actions={actions}
-          highlightQuery
-          nothingFound="Nothing found..."
-          searchProps={{
-            leftSection: (
+          <TextInput
+            leftSection={
               <IconSearch
-                style={{ width: rem(20), height: rem(20) }}
+                style={{ width: rem(12), height: rem(12) }}
                 stroke={1.5}
               />
-            ),
-            placeholder: "Search...",
-          }}
-          shortcut={["mod + k"]}
-        />
-
-        <Box className={classes.section}>
-          <Box className={classes.mainLinks}>{mainLinks}</Box>
-        </Box>
-
-        <Box className={classes.section}>
-          <Group className={classes.collectionsHeader} justify="space-between">
-            <Text size="xs" fw={500} c="dimmed">
-              Collections
-            </Text>
-            <Tooltip label="Create collection" withArrow position="right">
-              <ActionIcon variant="default" size={18}>
-                <IconPlus
-                  style={{ width: rem(12), height: rem(12) }}
+            }
+            mb="sm"
+            onClick={spotlight.open}
+            placeholder="Search"
+            readOnly
+            rightSection={<Code className={classes.searchCode}>Cmd + K</Code>}
+            rightSectionWidth={70}
+            styles={{ section: { pointerEvents: "none" } }}
+          />
+          <Spotlight
+            actions={actions}
+            highlightQuery
+            nothingFound="Nothing found..."
+            searchProps={{
+              leftSection: (
+                <IconSearch
+                  style={{ width: rem(20), height: rem(20) }}
                   stroke={1.5}
                 />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
-          <Box className={classes.collections}>{collectionLinks}</Box>
+              ),
+              placeholder: "Search...",
+            }}
+            shortcut={["mod + k"]}
+          />
+
+          <Box className={classes.section}>
+            <Box className={classes.mainLinks}>{mainLinks}</Box>
+          </Box>
+
+          <Box className={classes.section}>
+            <Group
+              className={classes.collectionsHeader}
+              justify="space-between"
+            >
+              <Text size="xs" fw={500} c="dimmed">
+                Collections
+              </Text>
+              <Tooltip label="Create collection" withArrow position="right">
+                <ActionIcon variant="default" size={18}>
+                  <IconPlus
+                    style={{ width: rem(12), height: rem(12) }}
+                    stroke={1.5}
+                  />
+                </ActionIcon>
+              </Tooltip>
+            </Group>
+            <Box className={classes.collections}>{collectionLinks}</Box>
+          </Box>
+        </Box>
+
+        <Box component="main" w="100%">
+          {children}
         </Box>
       </Box>
-
-      <Box component="main" w="100%">
-        {children}
-      </Box>
-    </Box>
+    </ProviderRoot>
   );
 }

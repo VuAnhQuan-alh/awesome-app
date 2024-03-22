@@ -51,6 +51,7 @@
   display: flex;
   font-size: var(--mantine-font-size-xs);
   font-weight: 500;
+  outline: none;
   padding: rem(8px) var(--mantine-spacing-xs);
   width: 100%;
 
@@ -80,6 +81,17 @@
 .mainLinkIcon {
   color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
   margin-right: var(--mantine-spacing-sm);
+
+  &[aria-checked="true"] {
+    color: var(--mantine-color-violet-5);
+  }
+}
+
+.mainLinkText {
+  &[aria-checked="true"] {
+    color: var(--mantine-color-violet-5);
+    font-weight: 600;
+  }
 }
 
 .mainLinkBadge {
