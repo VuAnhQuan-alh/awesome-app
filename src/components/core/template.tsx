@@ -20,16 +20,14 @@ const PageTemplate = (props: IProps) => {
         </Title>
 
         {onCreate && (
-          <Group>
-            <Button
-              onClick={onCreate}
-              variant="field"
-              bg="violet"
-              leftSection={<IconPlus size="1rem" />}
-            >
-              Create new entry
-            </Button>
-          </Group>
+          <Button
+            onClick={onCreate}
+            variant="field"
+            bg="violet"
+            leftSection={<IconPlus size="1rem" />}
+          >
+            Create new entry
+          </Button>
         )}
       </Group>
 

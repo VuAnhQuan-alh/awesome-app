@@ -1,0 +1,5 @@
+.input {
+  &:not([data-error="true"]):focus {
+    border: 1px solid #845ef7;
+  }
+}

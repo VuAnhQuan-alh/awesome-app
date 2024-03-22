@@ -1,32 +1,18 @@
 import { GridCol, TextInput, TextInputProps } from "@mantine/core";
-import { FieldComponent } from "@tanstack/react-form";
+import { useFormContext } from "@zone/components/context/form.context";
 
-interface IProps<TFilter> extends TextInputProps {
-  Control: FieldComponent<TFilter, undefined>;
+interface IProps extends TextInputProps {
   name: string;
   span: number | "auto" | "content";
 }
 
-function TextField<T = unknown>(props: IProps<T>) {
-  const { Control, name, span, ...fieldProps } = props;
+function TextField(props: IProps) {
+  const { name, span, ...inputProps } = props;
+  const form = useFormContext();
+
   return (
     <GridCol span={span}>
-      <Control
-        // @ts-ignore
-        name={name}
-      >
-        {(control) => (
-          <TextInput
-            // @ts-ignore
-            name={control.name}
-            value={control.state.value}
-            onBlur={control.handleBlur}
-            // @ts-ignore
-            onChange={(e) => control.handleChange(e.target.value)}
-            {...fieldProps}
-          />
-        )}
-      </Control>
+      <TextInput {...inputProps} {...form.getInputProps(name)} />
     </GridCol>
   );
 }

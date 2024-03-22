@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { FormEvent, ReactNode } from "react";
 
 import {
   Box,
@@ -12,68 +12,52 @@ import {
   Group,
   Title,
 } from "@mantine/core";
-import { FormState } from "@tanstack/react-form";
-import { NoInfer } from "@tanstack/react-query";
+import { UseFormReturnType } from "@mantine/form";
+import { FormContext } from "@zone/components/context/form.context";
 
-type IPropsDrawer = {
+type IPropsDrawer<TValue> = {
   children: ReactNode;
   close: () => void;
-  handleSubmit: () => Promise<void>;
+  handleSubmit: (
+    values: TValue | unknown,
+    event?: FormEvent<HTMLFormElement>
+  ) => void;
+  form: UseFormReturnType<unknown, (values: unknown) => unknown>;
   opened: boolean;
-  Subscribe: <TSelected = FormState<unknown>>(props: {
-    children: ReactNode | ((state: NoInfer<TSelected>) => ReactNode);
-    selector?: ((state: FormState<unknown>) => TSelected) | undefined;
-  }) => JSX.Element;
   title: string;
 };
 
-export default function DrawerBox(props: IPropsDrawer) {
-  const { children, close, handleSubmit, opened, Subscribe, title } = props;
-
+export default function DrawerBox<T>(props: IPropsDrawer<T>) {
   return (
-    <DrawerRoot position="right" opened={opened} onClose={close}>
+    <DrawerRoot position="right" opened={props.opened} onClose={props.close}>
       <DrawerOverlay />
 
       <DrawerContent>
         <DrawerHeader>
-          <Title order={4}>{title}</Title>
+          <Title order={4}>{props.title}</Title>
         </DrawerHeader>
 
         <DrawerBody h="calc(100% - 60px)">
-          <form
-            onSubmit={(e) => {
-              console.log("vao day roi");
-              e.preventDefault();
-              e.stopPropagation();
-              void handleSubmit();
-            }}
-            style={{ height: "100%" }}
-          >
-            <Flex direction="column" h="100%">
-              <Box mb="lg" flex={1} h="100%">
-                {children}
-              </Box>
+          <FormContext form={props.form}>
+            <form
+              onSubmit={props.form.onSubmit(props.handleSubmit)}
+              style={{ height: "100%" }}
+            >
+              <Flex direction="column" h="100%">
+                <Box mb="lg" flex={1} h="100%">
+                  {props.children}
+                </Box>
 
-              <Group gap="xs" justify="end">
-                <Subscribe
-                  selector={(state) => [state.canSubmit, state.isSubmitting]}
-                >
-                  {([canSubmit, isSubmitting]) => (
-                    <Button
-                      bg="violet"
-                      disabled={!canSubmit}
-                      type="submit"
-                      variant="field"
-                    >
-                      {isSubmitting ? "..." : "Applied"}
-                    </Button>
-                  )}
-                </Subscribe>
+                <Group gap="xs" justify="end">
+                  <Button bg="violet" type="submit" variant="field">
+                    Applied
+                  </Button>
 
-                <Button onClick={close}>Cancel</Button>
-              </Group>
-            </Flex>
-          </form>
+                  <Button onClick={props.close}>Cancel</Button>
+                </Group>
+              </Flex>
+            </form>
+          </FormContext>
         </DrawerBody>
       </DrawerContent>
     </DrawerRoot>

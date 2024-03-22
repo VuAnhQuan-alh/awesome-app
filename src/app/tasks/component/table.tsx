@@ -1,7 +1,7 @@
 "use client";
 
 import { useTemplate } from "@zone/components/context/template.context";
-import { TableCore } from "@zone/components/core";
+import TableCore from "@zone/components/core/table";
 
 import { ITasksType } from "../type";
 import useTableTask from "./useTable";

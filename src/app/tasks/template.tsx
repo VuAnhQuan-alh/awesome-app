@@ -1,61 +1,68 @@
 "use client";
 
-import { ReactNode } from "react";
+import { zodResolver } from "mantine-form-zod-resolver";
+import { ReactNode, useCallback } from "react";
+import { z } from "zod";
 
 import { Grid } from "@mantine/core";
-import { useForm } from "@tanstack/react-form";
+import { useContextForm } from "@zone/components/context/form.context";
 import { useTemplate } from "@zone/components/context/template.context";
 import { SelectField, TextField, YearPickerField } from "@zone/components/core";
 import DrawerBox from "@zone/components/core/drawer";
 import PageTemplate from "@zone/components/core/template";
-
-import { TARGET } from "./type";
+import { DRAWER_TARGET } from "@zone/types/type";
 
 type ITaskField = {
   title: string;
   year: string | Date | null;
+  author: string | null;
 };
+
+const schema = z.object({
+  title: z.string().min(4),
+  year: z.date(),
+  author: z.string().trim(),
+});
 
 export default function Template({ children }: { children: ReactNode }) {
   const context = useTemplate();
 
-  const { handleSubmit, Subscribe, Field } = useForm<ITaskField>({
-    defaultValues: {
-      title: "",
-      year: null,
-    },
-    onSubmit: ({ value }) => {
-      const year = value.year ? new Date(value.year).getFullYear() : null;
-      console.log("value", { ...value, year });
-    },
+  const form = useContextForm({
+    initialValues: { title: "", year: null, author: null },
+    validate: zodResolver(schema),
+    validateInputOnBlur: true,
   });
+
+  const handleSubmit = useCallback((values: ITaskField | unknown) => {
+    console.log({ values });
+    context.close(DRAWER_TARGET.TASKS);
+    form.reset();
+  }, []);
+
+  const handleClose = useCallback(() => {
+    context.close(DRAWER_TARGET.TASKS);
+    form.reset();
+    form.clearErrors();
+  }, []);
 
   return (
     <PageTemplate
       title="Title tasks"
-      onCreate={() => context.open(TARGET.TASKS)}
+      onCreate={() => context.open(DRAWER_TARGET.TASKS)}
     >
       {children}
 
-      <DrawerBox
-        close={() => context.close(TARGET.TASKS)}
+      <DrawerBox<ITaskField>
+        close={handleClose}
+        form={form}
         handleSubmit={handleSubmit}
-        opened={context.opened && context.target === TARGET.TASKS}
-        Subscribe={Subscribe}
+        opened={context.opened && context.target === DRAWER_TARGET.TASKS}
         title="Drawer box tasks"
       >
         <Grid gutter="xs">
-          <TextField
-            Control={Field}
-            label="Booking title"
-            name="title"
-            span={12}
-          />
-
-          <YearPickerField Control={Field} label="Year" span={4} name="year" />
-
+          <TextField label="Booking title" name="title" span={12} />
+          <YearPickerField label="Year" span={4} name="year" />
           <SelectField
-            Control={Field}
             data={[{ value: "abc", label: "Abc - xyz" }]}
             label="Author"
             name="author"

@@ -1,5 +1,7 @@
 "use client";
 
+import { ReactNode, useState } from "react";
+
 import {
   ActionIcon,
   Box,
@@ -25,6 +27,7 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
+import { randomId } from "@mantine/hooks";
 import {
   IconFilter,
   IconLoader,
@@ -33,6 +36,7 @@ import {
   IconSettings,
   IconX,
 } from "@tabler/icons-react";
+import { useForm } from "@tanstack/react-form";
 import {
   flexRender,
   getCoreRowModel,
@@ -42,9 +46,6 @@ import {
 import { IconEmpty } from "@zone/components/icons";
 
 import classes from "./table.module.css";
-import { ReactNode, useState } from "react";
-import { useForm } from "@tanstack/react-form";
-import { randomId } from "@mantine/hooks";
 
 interface ITableProps<T> extends Omit<TableOptions<T>, "getCoreRowModel"> {
   // property
@@ -379,4 +380,4 @@ function TableCore<T = unknown>(props: ITableProps<T>) {
   );
 }
 
-export { TableCore };
+export default TableCore;

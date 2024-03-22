@@ -1,33 +1,18 @@
 import { GridCol } from "@mantine/core";
 import { YearPickerInput, YearPickerInputProps } from "@mantine/dates";
-import { FieldComponent } from "@tanstack/react-form";
+import { useFormContext } from "@zone/components/context/form.context";
 
-interface IProps<TFilter> extends YearPickerInputProps {
-  Control: FieldComponent<TFilter, undefined>;
+interface IProps extends YearPickerInputProps {
   name: string;
   span: number | "auto" | "content";
 }
 
-function YearPickerField<T = unknown>(props: IProps<T>) {
-  const { Control, name, span, ...fieldProps } = props;
+function YearPickerField(props: IProps) {
+  const { name, span, ...inputProps } = props;
+  const form = useFormContext();
   return (
     <GridCol span={span}>
-      <Control
-        // @ts-ignore
-        name={name}
-      >
-        {(control) => (
-          <YearPickerInput
-            // @ts-ignore
-            name={control.name}
-            value={control.state.value}
-            onBlur={control.handleBlur}
-            // @ts-ignore
-            onChange={control.handleChange}
-            {...fieldProps}
-          />
-        )}
-      </Control>
+      <YearPickerInput {...inputProps} {...form.getInputProps(name)} />
     </GridCol>
   );
 }

@@ -33,7 +33,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
 
-      <body className={inter.className}>
+      <body suppressHydrationWarning={true} className={inter.className}>
         <QueryProvider>
           <MantineProvider withCssVariables={false} theme={theme}>
             <DatesProvider

@@ -3,87 +3,50 @@
 import "@mantine/spotlight/styles.css";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 import {
   ActionIcon,
   Badge,
   Box,
-  Code,
+  Flex,
   Group,
   rem,
   Text,
-  TextInput,
   Tooltip,
   UnstyledButton,
 } from "@mantine/core";
-import { spotlight, Spotlight, SpotlightActionData } from "@mantine/spotlight";
 import {
+  IconBrandAmongUs,
+  IconBrandAsana,
+  IconBroadcast,
   IconBulb,
   IconCheckbox,
-  IconDashboard,
-  IconFileText,
-  IconHome,
+  IconHomeEco,
+  IconLocation,
+  IconLogin2,
+  IconMist,
+  IconMoodUnamused,
   IconPlus,
-  IconSearch,
+  IconSubtask,
   IconUser,
 } from "@tabler/icons-react";
 import classes from "@zone/app/template.module.css";
 import ProviderRoot from "@zone/components/context/provider.root";
 import { UserButton } from "@zone/components/custom";
+import { useProfile } from "@zone/hooks/useProfile";
 
-const links = [
-  { icon: IconHome, label: "Dashboard", link: "/" },
-  { icon: IconBulb, label: "Activity", link: "/activities", notifications: 3 },
-  { icon: IconCheckbox, label: "Tasks", link: "/tasks", notifications: 4 },
-  { icon: IconUser, label: "Contacts", link: "/contacts" },
-];
-
-const collections = [
-  { emoji: "👍", label: "Sales" },
-  { emoji: "🚚", label: "Deliveries" },
-  { emoji: "💸", label: "Discounts" },
-  { emoji: "💰", label: "Profits" },
-  { emoji: "✨", label: "Reports" },
-  { emoji: "🛒", label: "Orders" },
-  { emoji: "📅", label: "Events" },
-  { emoji: "🙈", label: "Debts" },
-  { emoji: "💁‍♀️", label: "Customers" },
-];
-
-const actions: SpotlightActionData[] = [
-  {
-    id: "home",
-    label: "Home",
-    description: "Get to home page",
-    onClick: () => console.log("Home"),
-    leftSection: (
-      <IconHome style={{ width: rem(24), height: rem(24) }} stroke={1.5} />
-    ),
-  },
-  {
-    id: "dashboard",
-    label: "Dashboard",
-    description: "Get full information about current system status",
-    onClick: () => console.log("Dashboard"),
-    leftSection: (
-      <IconDashboard style={{ width: rem(24), height: rem(24) }} stroke={1.5} />
-    ),
-  },
-  {
-    id: "documentation",
-    label: "Documentation",
-    description: "Visit documentation to lean more about all features",
-    onClick: () => console.log("Documentation"),
-    leftSection: (
-      <IconFileText style={{ width: rem(24), height: rem(24) }} stroke={1.5} />
-    ),
-  },
-];
+import SpotlightMain from "./component/spotlight";
 
 export default function Template({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const profile = useProfile();
+
+  // if (!profile.data?.user) {
+  //   return <>{children}</>;
+  // }
 
   const mainLinks = links.map((link) => (
     <UnstyledButton
@@ -115,6 +78,31 @@ export default function Template({ children }: { children: ReactNode }) {
     </UnstyledButton>
   ));
 
+  const adminLinks = admins.map((link) => (
+    <UnstyledButton
+      aria-checked={pathname === link.link}
+      className={classes.mainLink}
+      component={Link}
+      href={link.link}
+      key={link.label}
+    >
+      <div className={classes.mainLinkInner}>
+        <link.icon
+          aria-checked={pathname === link.link}
+          className={classes.mainLinkIcon}
+          size={20}
+          stroke={1.5}
+        />
+        <span
+          aria-checked={pathname === link.link}
+          className={classes.mainLinkText}
+        >
+          {link.label}
+        </span>
+      </div>
+    </UnstyledButton>
+  ));
+
   const collectionLinks = collections.map((collection) => (
     <a
       className={classes.collectionLink}
@@ -137,60 +125,75 @@ export default function Template({ children }: { children: ReactNode }) {
             <UserButton />
           </Box>
 
-          <TextInput
-            leftSection={
-              <IconSearch
-                style={{ width: rem(12), height: rem(12) }}
-                stroke={1.5}
-              />
-            }
-            mb="sm"
-            onClick={spotlight.open}
-            placeholder="Search"
-            readOnly
-            rightSection={<Code className={classes.searchCode}>Cmd + K</Code>}
-            rightSectionWidth={70}
-            styles={{ section: { pointerEvents: "none" } }}
-          />
-          <Spotlight
-            actions={actions}
-            highlightQuery
-            nothingFound="Nothing found..."
-            searchProps={{
-              leftSection: (
-                <IconSearch
-                  style={{ width: rem(20), height: rem(20) }}
-                  stroke={1.5}
-                />
-              ),
-              placeholder: "Search...",
-            }}
-            shortcut={["mod + k"]}
-          />
+          {profile.data?.user && <SpotlightMain />}
 
           <Box className={classes.section}>
             <Box className={classes.mainLinks}>{mainLinks}</Box>
           </Box>
 
-          <Box className={classes.section}>
-            <Group
-              className={classes.collectionsHeader}
-              justify="space-between"
-            >
-              <Text size="xs" fw={500} c="dimmed">
-                Collections
-              </Text>
-              <Tooltip label="Create collection" withArrow position="right">
-                <ActionIcon variant="default" size={18}>
-                  <IconPlus
-                    style={{ width: rem(12), height: rem(12) }}
-                    stroke={1.5}
-                  />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
-            <Box className={classes.collections}>{collectionLinks}</Box>
-          </Box>
+          {profile.data?.user && (
+            <>
+              <Box className={classes.section}>
+                <Group
+                  className={classes.collectionsHeader}
+                  justify="space-between"
+                >
+                  <Text size="xs" fw={500} c="dimmed">
+                    Administration
+                  </Text>
+
+                  <ActionIcon variant="default" size={18}>
+                    <IconSubtask
+                      style={{ width: rem(12), height: rem(12) }}
+                      stroke={1.5}
+                    />
+                  </ActionIcon>
+                </Group>
+
+                <Box className={classes.collections}>
+                  <Box className={classes.mainLinks}>{adminLinks}</Box>
+                </Box>
+              </Box>
+
+              <Box className={classes.section}>
+                <Group
+                  className={classes.collectionsHeader}
+                  justify="space-between"
+                >
+                  <Text size="xs" fw={500} c="dimmed">
+                    Collections
+                  </Text>
+
+                  <ActionIcon variant="default" size={18}>
+                    <IconPlus
+                      style={{ width: rem(12), height: rem(12) }}
+                      stroke={1.5}
+                    />
+                  </ActionIcon>
+                </Group>
+
+                <Box className={classes.collections}>{collectionLinks}</Box>
+              </Box>
+            </>
+          )}
+
+          <Flex dir="column" align="end" h="100%">
+            <Tooltip label="Sign In">
+              <ActionIcon
+                color="violet"
+                onClick={() => {
+                  if (!profile.data?.user) {
+                    router.push("/auth");
+                  } else {
+                  }
+                }}
+                size="lg"
+                w="100%"
+              >
+                <IconLogin2 />
+              </ActionIcon>
+            </Tooltip>
+          </Flex>
         </Box>
 
         <Box component="main" w="100%">
@@ -200,3 +203,43 @@ export default function Template({ children }: { children: ReactNode }) {
     </ProviderRoot>
   );
 }
+
+const links = [
+  { icon: IconBrandAsana, label: "Dashboard", link: "/" },
+  { icon: IconBulb, label: "Activity", link: "/activities", notifications: 3 },
+  { icon: IconMist, label: "Mission", link: "/missions", notifications: 4 },
+  { icon: IconBroadcast, label: "Contacts", link: "/contacts" },
+];
+
+const collections = [
+  { emoji: "👍", label: "Sales" },
+  { emoji: "🚚", label: "Deliveries" },
+  { emoji: "💸", label: "Discounts" },
+  { emoji: "💰", label: "Profits" },
+  { emoji: "✨", label: "Reports" },
+  { emoji: "🛒", label: "Orders" },
+  { emoji: "📅", label: "Events" },
+  { emoji: "🙈", label: "Debts" },
+  { emoji: "💁‍♀️", label: "Customers" },
+];
+
+const admins = [
+  {
+    icon: IconHomeEco,
+    label: "Operators",
+    link: "/operators",
+  },
+  {
+    icon: IconLocation,
+    label: "Locations",
+    link: "/locations",
+  },
+  {
+    icon: IconBrandAmongUs,
+    label: "Authors",
+    link: "/authors",
+  },
+  { icon: IconCheckbox, label: "Tasks", link: "/tasks" },
+  { icon: IconUser, label: "Staffs", link: "/staffs" },
+  { icon: IconMoodUnamused, label: "Permissions", link: "/permissions" },
+];

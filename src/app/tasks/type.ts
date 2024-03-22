@@ -9,7 +9,3 @@ export type ITasksType = {
   };
   progress: unknown;
 };
-
-export enum TARGET {
-  TASKS = "TASKS",
-}

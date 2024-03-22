@@ -1,32 +1,18 @@
 import { GridCol, Select, SelectProps } from "@mantine/core";
-import { FieldComponent } from "@tanstack/react-form";
+import { useFormContext } from "@zone/components/context/form.context";
 
-interface IProps<TFilter> extends SelectProps {
-  Control: FieldComponent<TFilter, undefined>;
+interface IProps extends SelectProps {
   name: string;
   span: number | "auto" | "content";
 }
 
-function SelectField<T = unknown>(props: IProps<T>) {
-  const { Control, name, span, ...fieldProps } = props;
+function SelectField(props: IProps) {
+  const { name, span, ...selectProps } = props;
+  const form = useFormContext();
+
   return (
     <GridCol span={span}>
-      <Control
-        // @ts-ignore
-        name={name}
-      >
-        {(control) => (
-          <Select
-            // @ts-ignore
-            name={control.name}
-            value={control.state.value}
-            onBlur={control.handleBlur}
-            // @ts-ignore
-            onChange={control.handleChange}
-            {...fieldProps}
-          />
-        )}
-      </Control>
+      <Select {...selectProps} {...form.getInputProps(name)} />
     </GridCol>
   );
 }

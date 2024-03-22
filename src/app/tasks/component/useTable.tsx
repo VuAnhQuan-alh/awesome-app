@@ -14,8 +14,9 @@ import {
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { IHeadCell } from "@zone/components/core";
+import { DRAWER_TARGET } from "@zone/types/type";
 
-import { ITasksType, TARGET } from "../type";
+import { ITasksType } from "../type";
 import classes from "./table.module.css";
 
 type IProps = {
@@ -127,7 +128,7 @@ const useTableTask = (props: IProps) => {
         id: "actions",
         cell: ({ row }) => {
           const handle = () => {
-            open(TARGET.TASKS);
+            open(DRAWER_TARGET.TASKS);
             console.log({ data: row.original });
           };
           return (

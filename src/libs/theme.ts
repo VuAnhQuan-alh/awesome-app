@@ -7,6 +7,7 @@ import {
   Checkbox,
   Container,
   createTheme,
+  PasswordInput,
   rem,
   Select,
   TableCaption,
@@ -15,6 +16,8 @@ import {
   Title,
 } from "@mantine/core";
 import { YearPickerInput } from "@mantine/dates";
+
+import classes from "./theme.module.css";
 
 const theme = createTheme({
   components: {
@@ -26,33 +29,32 @@ const theme = createTheme({
       defaultProps: { c: "var(--mantine-color-anchor)" },
     }),
     Button: Button.extend({
-      defaultProps: { color: "violet", variant: "outline", size: "xs" },
+      defaultProps: { color: "violet", variant: "outline", size: "sm" },
       styles: { root: { outline: "none" } },
     }),
     Checkbox: Checkbox.extend({
-      defaultProps: { size: "xs", color: "violet" },
+      defaultProps: { size: "sm", color: "violet" },
       styles: { input: { cursor: "pointer" } },
     }),
     Container: Container.extend({ defaultProps: { px: rem(10) } }),
     Select: Select.extend({
-      defaultProps: { size: "xs" },
-      styles: { input: { borderColor: "var(--mantine-color-violet-5)" } },
+      defaultProps: { size: "sm" },
+      classNames: { input: classes.input },
     }),
     TableCaption: TableCaption.extend({ defaultProps: { mb: rem(0) } }),
     Text: Text.extend({ defaultProps: { c: "var(--mantine-color-gray-8)" } }),
     TextInput: TextInput.extend({
-      defaultProps: { size: "xs" },
-      styles: { input: { borderColor: "var(--mantine-color-violet-5)" } },
+      defaultProps: { size: "sm" },
+      classNames: { input: classes.input },
     }),
     Title: Title.extend({ defaultProps: { c: "var(--mantine-color-gray-8)" } }),
     YearPickerInput: YearPickerInput.extend({
-      defaultProps: { size: "xs", h: rem(30) },
-      styles: {
-        input: {
-          borderColor: "var(--mantine-color-violet-5)",
-          height: rem(30),
-        },
-      },
+      defaultProps: { size: "sm", h: rem(36) },
+      classNames: { input: classes.input },
+    }),
+    PasswordInput: PasswordInput.extend({
+      defaultProps: { size: "sm" },
+      classNames: { input: classes.input },
     }),
   },
 });
