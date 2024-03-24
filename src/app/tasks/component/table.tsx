@@ -1,19 +1,21 @@
 "use client";
 
+import { memo } from "react";
+
 import { useTemplate } from "@zone/components/context/template.context";
 import TableCore from "@zone/components/core/table";
 
-import { ITasksType } from "../type";
 import useTableTask from "./useTable";
 
+const TableCoreMemo = memo(TableCore);
+
 export default function TableTask() {
-  const context = useTemplate();
-  const { columns, dataTasks, HEAD_CELLS } = useTableTask({
-    open: context.open,
-  });
+  const { open } = useTemplate();
+
+  const { columns, dataTasks, HEAD_CELLS } = useTableTask({ open });
 
   return (
-    <TableCore<ITasksType>
+    <TableCoreMemo
       columns={columns}
       data={dataTasks}
       headCells={HEAD_CELLS}

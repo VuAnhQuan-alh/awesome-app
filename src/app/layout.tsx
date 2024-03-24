@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
+import "@mantine/notifications/styles.css";
 import "dayjs/locale/vi";
 
 import { Inter } from "next/font/google";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
+import { Notifications } from "@mantine/notifications";
 import QueryProvider from "@zone/libs/query-provider";
 import { theme } from "@zone/libs/theme";
 
@@ -36,6 +38,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} className={inter.className}>
         <QueryProvider>
           <MantineProvider withCssVariables={false} theme={theme}>
+            <Notifications />
             <DatesProvider
               settings={{
                 locale: "vi",

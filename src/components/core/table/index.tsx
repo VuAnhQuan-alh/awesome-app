@@ -68,6 +68,7 @@ type TFilter = {
 function TableCore<T = unknown>(props: ITableProps<T>) {
   console.debug("Render or rerender TABLE");
   const {
+    columns,
     loading,
     title,
     headCells,
@@ -80,6 +81,7 @@ function TableCore<T = unknown>(props: ITableProps<T>) {
 
   const { getHeaderGroups, getRowModel, getFooterGroups, getAllLeafColumns } =
     useReactTable({
+      columns: columns,
       getCoreRowModel: getCoreRowModel(),
       ...tableProps,
     });

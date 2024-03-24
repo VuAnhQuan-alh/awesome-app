@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 
@@ -20,14 +26,20 @@ export default function TemplateProvider({
   const [target, setTarget] = useState<string | null>(null);
   const [opened, { open, close, toggle }] = useDisclosure();
 
-  const handleOpen = (value: string) => {
-    setTarget(value);
-    open();
-  };
-  const handleClose = (value: string) => {
-    setTarget(value);
-    close();
-  };
+  const handleOpen = useCallback(
+    (value: string) => {
+      setTarget(value);
+      open();
+    },
+    [open]
+  );
+  const handleClose = useCallback(
+    (value: string) => {
+      setTarget(value);
+      close();
+    },
+    [close]
+  );
 
   return (
     <TemplateContext.Provider

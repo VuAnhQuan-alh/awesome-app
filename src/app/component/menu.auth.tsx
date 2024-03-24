@@ -1,0 +1,3 @@
+const MenuAuth = () => {
+  return <></>;
+};

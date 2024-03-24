@@ -1,6 +1,6 @@
 "use client";
 
-import { zodValidator } from "@tanstack/zod-form-adapter";
+import Link from "next/link";
 import { z } from "zod";
 
 import {
@@ -9,25 +9,29 @@ import {
   Container,
   Divider,
   PasswordInput,
+  rem,
   Stack,
   TextInput,
   Title,
-  rem,
 } from "@mantine/core";
-import { useForm } from "@tanstack/react-form";
-import { ISignIn } from "@zone/types/type";
 import {
   IconBrandDiscord,
   IconBrandGoogleHome,
   IconBrandTwitter,
 } from "@tabler/icons-react";
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
 import { IconThink } from "@zone/components/icons";
-import Link from "next/link";
+import { useSignIn } from "@zone/hooks/useProfile";
+import { ISignIn } from "@zone/types/type";
 
 const AuthPage = () => {
+  const { mutate } = useSignIn();
+
   const { Field, Subscribe, handleSubmit } = useForm<ISignIn>({
     defaultValues: { email: "", password: "" },
     onSubmit: async ({ value }) => {
+      mutate(value);
       console.log("sign-in", { value });
     },
   });

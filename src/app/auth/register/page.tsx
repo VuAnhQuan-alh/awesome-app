@@ -1,6 +1,5 @@
 "use client";
 
-import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 
 import {
@@ -9,24 +8,29 @@ import {
   Container,
   Divider,
   PasswordInput,
+  rem,
   Stack,
   TextInput,
   Title,
-  rem,
 } from "@mantine/core";
-import { useForm } from "@tanstack/react-form";
-import { ISignIn } from "@zone/types/type";
 import {
   IconBrandDiscord,
   IconBrandGoogleHome,
   IconBrandTwitter,
 } from "@tabler/icons-react";
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import { useSignUp } from "@zone/hooks/useProfile";
+import { ISignIn } from "@zone/types/type";
 
 const RegisterPage = () => {
+  const { mutate } = useSignUp();
+
   const { Field, Subscribe, handleSubmit } = useForm<ISignIn>({
     defaultValues: { email: "", password: "" },
     onSubmit: async ({ value }) => {
-      console.log("sign-in", { value });
+      mutate(value);
+      console.log("sign-un", { value });
     },
   });
 

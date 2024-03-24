@@ -12,7 +12,7 @@ import {
   Text,
 } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { IHeadCell } from "@zone/components/core";
 import { DRAWER_TARGET } from "@zone/types/type";
 
@@ -147,58 +147,61 @@ const useTableTask = (props: IProps) => {
       }),
     ],
     [HEAD_CELLS, open]
-  );
+  ) as ColumnDef<unknown, any>[];
 
-  const dataTasks = [
-    {
-      id: "shaPoh0e",
-      progress: null,
-      title: "Foundation",
-      author: "Isaac Asimov",
-      year: 1951,
-      reviews: { positive: 2223, negative: 259 },
-    },
-    {
-      id: "yu2Af1he",
-      progress: null,
-      title: "Frankenstein",
-      author: "Mary Shelley",
-      year: 1818,
-      reviews: { positive: 5677, negative: 1265 },
-    },
-    {
-      id: "koe6Lood",
-      progress: null,
-      title: "Solaris",
-      author: "Stanislaw Lem",
-      year: 1961,
-      reviews: { positive: 3487, negative: 1845 },
-    },
-    {
-      id: "ohhuqu4A",
-      progress: null,
-      title: "Dune",
-      author: "Frank Herbert",
-      year: 1965,
-      reviews: { positive: 8576, negative: 663 },
-    },
-    {
-      id: "wa3ohFoh",
-      progress: null,
-      title: "The Left Hand of Darkness",
-      author: "Ursula K. Le Guin",
-      year: 1969,
-      reviews: { positive: 6631, negative: 993 },
-    },
-    {
-      id: "eKaef5Cu",
-      progress: null,
-      title: "A Scanner Darkly",
-      author: "Philip K Dick",
-      year: 1977,
-      reviews: { positive: 8124, negative: 1847 },
-    },
-  ];
+  const dataTasks = useMemo(
+    () => [
+      {
+        id: "shaPoh0e",
+        progress: null,
+        title: "Foundation",
+        author: "Isaac Asimov",
+        year: 1951,
+        reviews: { positive: 2223, negative: 259 },
+      },
+      {
+        id: "yu2Af1he",
+        progress: null,
+        title: "Frankenstein",
+        author: "Mary Shelley",
+        year: 1818,
+        reviews: { positive: 5677, negative: 1265 },
+      },
+      {
+        id: "koe6Lood",
+        progress: null,
+        title: "Solaris",
+        author: "Stanislaw Lem",
+        year: 1961,
+        reviews: { positive: 3487, negative: 1845 },
+      },
+      {
+        id: "ohhuqu4A",
+        progress: null,
+        title: "Dune",
+        author: "Frank Herbert",
+        year: 1965,
+        reviews: { positive: 8576, negative: 663 },
+      },
+      {
+        id: "wa3ohFoh",
+        progress: null,
+        title: "The Left Hand of Darkness",
+        author: "Ursula K. Le Guin",
+        year: 1969,
+        reviews: { positive: 6631, negative: 993 },
+      },
+      {
+        id: "eKaef5Cu",
+        progress: null,
+        title: "A Scanner Darkly",
+        author: "Philip K Dick",
+        year: 1977,
+        reviews: { positive: 8124, negative: 1847 },
+      },
+    ],
+    []
+  );
 
   return { columns, dataTasks, HEAD_CELLS };
 };

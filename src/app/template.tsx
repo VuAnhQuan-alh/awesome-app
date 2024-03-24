@@ -26,6 +26,7 @@ import {
   IconHomeEco,
   IconLocation,
   IconLogin2,
+  IconLogout2,
   IconMist,
   IconMoodUnamused,
   IconPlus,
@@ -33,20 +34,17 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import classes from "@zone/app/template.module.css";
+import { AuthConsumer, useAuth } from "@zone/components/context/auth.context";
 import ProviderRoot from "@zone/components/context/provider.root";
 import { UserButton } from "@zone/components/custom";
-import { useProfile } from "@zone/hooks/useProfile";
+import { useProfile, useSignOut } from "@zone/hooks/useProfile";
 
 import SpotlightMain from "./component/spotlight";
 
 export default function Template({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const profile = useProfile();
-
-  // if (!profile.data?.user) {
-  //   return <>{children}</>;
-  // }
+  const { mutate: signOut } = useSignOut();
 
   const mainLinks = links.map((link) => (
     <UnstyledButton
@@ -125,74 +123,83 @@ export default function Template({ children }: { children: ReactNode }) {
             <UserButton />
           </Box>
 
-          {profile.data?.user && <SpotlightMain />}
+          <AuthConsumer>
+            {(auth) => auth?.user && <SpotlightMain />}
+          </AuthConsumer>
 
           <Box className={classes.section}>
             <Box className={classes.mainLinks}>{mainLinks}</Box>
           </Box>
 
-          {profile.data?.user && (
-            <>
-              <Box className={classes.section}>
-                <Group
-                  className={classes.collectionsHeader}
-                  justify="space-between"
-                >
-                  <Text size="xs" fw={500} c="dimmed">
-                    Administration
-                  </Text>
+          <AuthConsumer>
+            {(auth) =>
+              auth?.user && (
+                <>
+                  <Box className={classes.section}>
+                    <Group
+                      className={classes.collectionsHeader}
+                      justify="space-between"
+                    >
+                      <Text size="xs" fw={500} c="dimmed">
+                        Administration
+                      </Text>
 
-                  <ActionIcon variant="default" size={18}>
-                    <IconSubtask
-                      style={{ width: rem(12), height: rem(12) }}
-                      stroke={1.5}
-                    />
-                  </ActionIcon>
-                </Group>
+                      <ActionIcon variant="default" size={18}>
+                        <IconSubtask
+                          style={{ width: rem(12), height: rem(12) }}
+                          stroke={1.5}
+                        />
+                      </ActionIcon>
+                    </Group>
 
-                <Box className={classes.collections}>
-                  <Box className={classes.mainLinks}>{adminLinks}</Box>
-                </Box>
-              </Box>
+                    <Box className={classes.collections}>
+                      <Box className={classes.mainLinks}>{adminLinks}</Box>
+                    </Box>
+                  </Box>
 
-              <Box className={classes.section}>
-                <Group
-                  className={classes.collectionsHeader}
-                  justify="space-between"
-                >
-                  <Text size="xs" fw={500} c="dimmed">
-                    Collections
-                  </Text>
+                  <Box className={classes.section}>
+                    <Group
+                      className={classes.collectionsHeader}
+                      justify="space-between"
+                    >
+                      <Text size="xs" fw={500} c="dimmed">
+                        Collections
+                      </Text>
 
-                  <ActionIcon variant="default" size={18}>
-                    <IconPlus
-                      style={{ width: rem(12), height: rem(12) }}
-                      stroke={1.5}
-                    />
-                  </ActionIcon>
-                </Group>
+                      <ActionIcon variant="default" size={18}>
+                        <IconPlus
+                          style={{ width: rem(12), height: rem(12) }}
+                          stroke={1.5}
+                        />
+                      </ActionIcon>
+                    </Group>
 
-                <Box className={classes.collections}>{collectionLinks}</Box>
-              </Box>
-            </>
-          )}
+                    <Box className={classes.collections}>{collectionLinks}</Box>
+                  </Box>
+                </>
+              )
+            }
+          </AuthConsumer>
 
           <Flex dir="column" align="end" h="100%">
-            <Tooltip label="Sign In">
-              <ActionIcon
-                color="violet"
-                onClick={() => {
-                  if (!profile.data?.user) {
-                    router.push("/auth");
-                  } else {
-                  }
-                }}
-                size="lg"
-                w="100%"
-              >
-                <IconLogin2 />
-              </ActionIcon>
-            </Tooltip>
+            <AuthConsumer>
+              {(auth) => (
+                <ActionIcon
+                  color="violet"
+                  onClick={() => {
+                    if (!auth?.user) {
+                      router.push("/auth");
+                    } else {
+                      signOut();
+                    }
+                  }}
+                  size="lg"
+                  w="100%"
+                >
+                  {auth?.user ? <IconLogout2 /> : <IconLogin2 />}
+                </ActionIcon>
+              )}
+            </AuthConsumer>
           </Flex>
         </Box>
 
