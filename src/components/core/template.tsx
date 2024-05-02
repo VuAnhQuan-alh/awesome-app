@@ -2,9 +2,10 @@
 
 import { ReactNode } from "react";
 
-import { Button, Container, Group, rem, Title } from "@mantine/core";
+import { Box, Button, Container, Group, rem, Title } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { AuthConsumer } from "../context/auth.context";
+import Image from "next/image";
 
 type IProps = {
   children: ReactNode;
@@ -21,7 +22,22 @@ const PageTemplate = (props: IProps) => {
       <AuthConsumer>
         {(authentication) => {
           if (auth && !authentication?.user) {
-            return <>Not authentication</>;
+            return (
+              <Box
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: 140,
+                }}
+              >
+                <Image
+                  src="/forbidden.png"
+                  alt="forbidden"
+                  width={640}
+                  height={360}
+                />
+              </Box>
+            );
           } else {
             return (
               <>
