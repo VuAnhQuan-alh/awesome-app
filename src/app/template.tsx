@@ -219,9 +219,7 @@ const links = [
 ];
 
 const collections = [
-  { emoji: "👍", label: "Sales" },
   { emoji: "🚚", label: "Deliveries" },
-  { emoji: "💸", label: "Discounts" },
   { emoji: "💰", label: "Profits" },
   { emoji: "✨", label: "Reports" },
   { emoji: "🛒", label: "Orders" },

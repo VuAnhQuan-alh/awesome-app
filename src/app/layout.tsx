@@ -11,6 +11,7 @@ import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
 import QueryProvider from "@zone/libs/query-provider";
 import { theme } from "@zone/libs/theme";
+import AuthProvider from "@zone/components/context/auth.context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,7 +48,7 @@ export default function RootLayout({
                 timezone: "UTC",
               }}
             >
-              {children}
+              <AuthProvider>{children}</AuthProvider>
             </DatesProvider>
           </MantineProvider>
         </QueryProvider>

@@ -1,14 +1,19 @@
 import { notifications } from "@mantine/notifications";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { supabaseClient } from "@zone/libs/supabase";
-import { ISignIn } from "@zone/types/type";
+import {
+  supabaseClient,
+  supabaseServer,
+  typeCookieStore,
+} from "@zone/libs/supabase";
+import { IProfile, ISignIn } from "@zone/types/type";
 
 const fetchUser = async () => {
-  const { data, error } = await supabaseClient.auth.getUser();
+  // const { data, error } = await supabaseServer(cookies).auth.getUser();
+  const { data } = await supabaseClient().auth.getUser();
   return data;
 };
 const fetchSignIn = async (value: ISignIn) => {
-  const { data, error } = await supabaseClient.auth.signInWithPassword(value);
+  const { data, error } = await supabaseClient().auth.signInWithPassword(value);
 
   if (error?.message) {
     notifications.show({
@@ -20,7 +25,7 @@ const fetchSignIn = async (value: ISignIn) => {
   return data;
 };
 const fetchSignUp = async (value: ISignIn) => {
-  const { data, error } = await supabaseClient.auth.signUp(value);
+  const { data, error } = await supabaseClient().auth.signUp(value);
   if (error?.message) {
     notifications.show({
       message: error.message,
@@ -30,7 +35,7 @@ const fetchSignUp = async (value: ISignIn) => {
   return data;
 };
 const fetchSignOut = async () => {
-  const { error } = await supabaseClient.auth.signOut();
+  const { error } = await supabaseClient().auth.signOut();
   if (error?.message) {
     notifications.show({
       message: error.message,
@@ -39,11 +44,15 @@ const fetchSignOut = async () => {
   }
 };
 
-const useProfile = () => {
+const useProfile = (enabled: boolean, handleData: (value: any) => void) => {
   const query = useQuery({
     queryKey: ["auth"],
     queryFn: fetchUser,
+    enabled,
   });
+  if (query.data?.user && enabled) {
+    handleData(query.data.user);
+  }
   return query;
 };
 const useSignIn = () => {

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   createContext,
   ReactNode,
@@ -6,6 +8,7 @@ import {
   useState,
 } from "react";
 
+import { useProfile } from "@zone/hooks/useProfile";
 import { IProfile } from "@zone/types/type";
 
 interface AuthContextProps {
@@ -27,6 +30,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const handleSetProfile = useCallback((value: IProfile) => {
     setState((state: any) => ({ ...state, user: value }));
   }, []);
+  const {} = useProfile(!Boolean(state.user), handleSetProfile);
 
   return (
     <AuthContext.Provider value={{ ...state, setUser: handleSetProfile }}>
