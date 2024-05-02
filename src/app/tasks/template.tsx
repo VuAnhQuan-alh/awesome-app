@@ -33,20 +33,24 @@ export default function Template({ children }: { children: ReactNode }) {
     validateInputOnBlur: true,
   });
 
-  const handleSubmit = useCallback((values: ITaskField | unknown) => {
-    console.log({ values });
-    context.close(DRAWER_TARGET.TASKS);
-    form.reset();
-  }, []);
+  const handleSubmit = useCallback(
+    (values: ITaskField | unknown) => {
+      console.log({ values });
+      context.close(DRAWER_TARGET.TASKS);
+      form.reset();
+    },
+    [form, context]
+  );
 
   const handleClose = useCallback(() => {
     context.close(DRAWER_TARGET.TASKS);
     form.reset();
     form.clearErrors();
-  }, []);
+  }, [form, context]);
 
   return (
     <PageTemplate
+      auth
       title="Title tasks"
       onCreate={() => context.open(DRAWER_TARGET.TASKS)}
     >

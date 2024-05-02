@@ -8,10 +8,10 @@ export type ISignIn = {
 };
 
 export type IProfile = {
-  app_meta: { provider: string };
+  app_metadata: { provider?: string };
   aud: string;
-  email: string;
+  email?: string;
   id: string;
-  phone: string;
-  role: string;
+  phone?: string;
+  role?: string;
 };

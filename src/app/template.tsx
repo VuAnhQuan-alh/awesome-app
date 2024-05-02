@@ -34,10 +34,10 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import classes from "@zone/app/template.module.css";
-import { AuthConsumer, useAuth } from "@zone/components/context/auth.context";
+import { AuthConsumer } from "@zone/components/context/auth.context";
 import ProviderRoot from "@zone/components/context/provider.root";
 import { UserButton } from "@zone/components/custom";
-import { useProfile, useSignOut } from "@zone/hooks/useProfile";
+import { useSignOut } from "@zone/hooks/useProfile";
 
 import SpotlightMain from "./component/spotlight";
 
@@ -191,6 +191,8 @@ export default function Template({ children }: { children: ReactNode }) {
                       router.push("/auth");
                     } else {
                       signOut();
+                      auth.setUser(null);
+                      router.push("/");
                     }
                   }}
                   size="lg"

@@ -24,9 +24,14 @@ import { zodValidator } from "@tanstack/zod-form-adapter";
 import { IconThink } from "@zone/components/icons";
 import { useSignIn } from "@zone/hooks/useProfile";
 import { ISignIn } from "@zone/types/type";
+import { useEffect } from "react";
+import { useAuth } from "@zone/components/context/auth.context";
+import { useRouter } from "next/navigation";
 
 const AuthPage = () => {
-  const { mutate } = useSignIn();
+  const { mutate, data } = useSignIn();
+  const { setUser } = useAuth();
+  const route = useRouter();
 
   const { Field, Subscribe, handleSubmit } = useForm<ISignIn>({
     defaultValues: { email: "", password: "" },
@@ -35,6 +40,13 @@ const AuthPage = () => {
       console.log("sign-in", { value });
     },
   });
+
+  useEffect(() => {
+    if (data?.user) {
+      setUser(data.user);
+      route.push("/profile");
+    }
+  }, [data?.user, setUser, route]);
 
   return (
     <Container>
